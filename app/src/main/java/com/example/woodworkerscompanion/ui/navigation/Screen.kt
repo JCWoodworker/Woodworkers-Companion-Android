@@ -11,5 +11,6 @@ sealed class Screen(val route: String) {
     object InventoryManagement : Screen("inventory_management")
     object DigitalSketchpad : Screen("digital_sketchpad")
     object ReferenceLibraries : Screen("reference_libraries")
+    object WoodshopCalculator : Screen("woodshop_calculator")
 }
 

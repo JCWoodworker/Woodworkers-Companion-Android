@@ -62,6 +62,12 @@ data class Tool(
                 name = "Reference Libraries",
                 inDevelopment = true,
                 summary = ToolSummaries.referenceLibraries
+            ),
+            Tool(
+                id = 10,
+                name = "Woodshop Calculator",
+                inDevelopment = true,
+                summary = ToolSummaries.woodshopCalculator
             )
         )
     }

@@ -144,5 +144,9 @@ The Wood Species Guide is organized as a searchable database where you can brows
 **How It Benefits You**
 
 These libraries make you a more knowledgeable and confident woodworker. Instead of gambling on unfamiliar species, you can quickly research their properties before purchasing, ensuring they're suitable for your intended application and skill level. Understanding working properties helps you anticipate challenges—you'll know if a species requires sharp tools and slow feed rates, or if it glues and finishes well. For beginners, having reliable definitions at your fingertips accelerates learning and helps you understand instructions, videos, and conversations with more experienced woodworkers. The reference materials are always with you in the shop on your phone or tablet, eliminating the need to keep physical books in your workspace or interrupt your work to search online. This instant access to knowledge transforms complex decisions about materials and techniques into confident, informed choices, ultimately improving the quality of your work and reducing costly mistakes."""
+
+    const val woodshopCalculator = """**What it is**
+
+A suite of calculators for common workshop math problems, including fractions, conversions, and geometry."""
 }
 

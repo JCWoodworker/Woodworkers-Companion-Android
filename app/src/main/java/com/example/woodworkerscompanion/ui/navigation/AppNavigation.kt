@@ -8,6 +8,7 @@ import com.example.woodworkerscompanion.data.models.Tool
 import com.example.woodworkerscompanion.ui.screens.MainScreen
 import com.example.woodworkerscompanion.ui.screens.tools.PlaceholderToolScreen
 import com.example.woodworkerscompanion.ui.screens.tools.boardfoot.BoardFootCalculatorScreen
+import com.example.woodworkerscompanion.ui.screens.tools.woodshop.WoodshopCalculator
 
 @Composable
 fun AppNavigation() {
@@ -31,6 +32,7 @@ fun AppNavigation() {
                         7 -> Screen.InventoryManagement.route
                         8 -> Screen.DigitalSketchpad.route
                         9 -> Screen.ReferenceLibraries.route
+                        10 -> Screen.WoodshopCalculator.route
                         else -> Screen.Main.route
                     }
                     navController.navigate(route)
@@ -42,7 +44,7 @@ fun AppNavigation() {
         composable(Screen.BoardFootCalculator.route) {
             val tool = Tool.allTools.find { it.id == 1 }!!
             BoardFootCalculatorScreen(
-                onNavigateBack = { navController.navigateUp() },
+                onNavigateBack = { navController.popBackStack() },
                 toolSummary = tool.summary
             )
         }
@@ -53,7 +55,7 @@ fun AppNavigation() {
             PlaceholderToolScreen(
                 toolName = tool.name,
                 summary = tool.summary,
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
         
@@ -63,7 +65,7 @@ fun AppNavigation() {
             PlaceholderToolScreen(
                 toolName = tool.name,
                 summary = tool.summary,
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
         
@@ -73,7 +75,7 @@ fun AppNavigation() {
             PlaceholderToolScreen(
                 toolName = tool.name,
                 summary = tool.summary,
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
         
@@ -83,7 +85,7 @@ fun AppNavigation() {
             PlaceholderToolScreen(
                 toolName = tool.name,
                 summary = tool.summary,
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
         
@@ -93,7 +95,7 @@ fun AppNavigation() {
             PlaceholderToolScreen(
                 toolName = tool.name,
                 summary = tool.summary,
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
         
@@ -103,7 +105,7 @@ fun AppNavigation() {
             PlaceholderToolScreen(
                 toolName = tool.name,
                 summary = tool.summary,
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
         
@@ -113,7 +115,7 @@ fun AppNavigation() {
             PlaceholderToolScreen(
                 toolName = tool.name,
                 summary = tool.summary,
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
         
@@ -123,9 +125,16 @@ fun AppNavigation() {
             PlaceholderToolScreen(
                 toolName = tool.name,
                 summary = tool.summary,
-                onNavigateBack = { navController.navigateUp() }
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        // Woodshop Calculator (placeholder)
+        composable(Screen.WoodshopCalculator.route) {
+            val tool = Tool.allTools.find { it.id == 10 }!!
+            WoodshopCalculator(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
     }
 }
-
