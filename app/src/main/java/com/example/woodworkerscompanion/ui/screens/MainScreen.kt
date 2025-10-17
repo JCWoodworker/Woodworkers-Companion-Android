@@ -8,11 +8,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,63 +39,52 @@ fun MainScreen(
     modifier: Modifier = Modifier
 ) {
     val tools = Tool.allTools
-    val scrollState = rememberScrollState()
     
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState),
-            horizontalAlignment = Alignment.CenterHorizontally
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(24.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.height(40.dp))
-            
-            // Banner image (placeholder for now - user will provide)
-            // Uncomment when image is available:
-            // Image(
-            //     painter = painterResource(id = R.drawable.wwc_banner),
-            //     contentDescription = "Woodworker's Companion Banner",
-            //     modifier = Modifier
-            //         .fillMaxWidth(0.9f)
-            //         .clip(RoundedCornerShape(12.dp))
-            //         .shadow(8.dp, RoundedCornerShape(12.dp))
-            //         .padding(horizontal = 20.dp)
-            // )
-            
-            // Temporary text banner until image is provided
-            Text(
-                text = "Woodworker's Companion",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.padding(20.dp)
-            )
-            
-            Spacer(modifier = Modifier.height(30.dp))
-            
-            // Tool Grid
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),  // Will be adaptive based on screen size
-                contentPadding = PaddingValues(24.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 600.dp)
-            ) {
-                items(tools) { tool ->
-                    ToolTile(
-                        tool = tool,
-                        onClick = { onToolClick(tool.id) }
+            // Header items
+            item(span = { GridItemSpan(2) }) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Spacer(modifier = Modifier.height(40.dp))
+                    
+                    // Temporary text banner until image is provided
+                    Text(
+                        text = "Woodworker's Companion",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(20.dp)
                     )
+                    
+                    Spacer(modifier = Modifier.height(10.dp))
                 }
             }
             
-            Spacer(modifier = Modifier.height(40.dp))
+            // Tool tiles
+            items(tools) { tool ->
+                ToolTile(
+                    tool = tool,
+                    onClick = { onToolClick(tool.id) }
+                )
+            }
+            
+            // Bottom spacer
+            item(span = { GridItemSpan(2) }) {
+                Spacer(modifier = Modifier.height(40.dp))
+            }
         }
     }
 }
