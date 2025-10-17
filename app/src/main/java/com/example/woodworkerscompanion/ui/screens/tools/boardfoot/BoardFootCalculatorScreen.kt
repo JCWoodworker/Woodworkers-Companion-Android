@@ -14,9 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.woodworkerscompanion.data.database.AppDatabase
+import com.example.woodworkerscompanion.data.models.BoardEntry
 import com.example.woodworkerscompanion.ui.components.HomeButton
 import com.example.woodworkerscompanion.ui.components.InfoButton
 import com.example.woodworkerscompanion.ui.components.InfoModal
+import com.example.woodworkerscompanion.ui.screens.tools.boardfoot.dialogs.*
+import kotlinx.coroutines.launch
 
 @Composable
 fun BoardFootCalculatorScreen(
@@ -34,9 +37,15 @@ fun BoardFootCalculatorScreen(
     var showSaveOrderDialog by remember { mutableStateOf(false) }
     var showHistory by remember { mutableStateOf(false) }
     var showExportDialog by remember { mutableStateOf(false) }
+    var boardToEdit by remember { mutableStateOf<BoardEntry?>(null) }
     
     val selectedUnit by viewModel.selectedUnit.collectAsState()
     val boards by viewModel.boards.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    
+    val historyViewModel: HistoryViewModel = viewModel(
+        factory = HistoryViewModelFactory(database)
+    )
     
     Box(
         modifier = modifier
@@ -89,7 +98,7 @@ fun BoardFootCalculatorScreen(
                 BoardListView(
                     boards = boards,
                     onDeleteBoard = { viewModel.removeBoard(it) },
-                    onEditBoard = { /* TODO: Show edit dialog */ }
+                    onEditBoard = { boardToEdit = it }
                 )
                 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -135,7 +144,7 @@ fun BoardFootCalculatorScreen(
         }
     }
     
-    // Modals
+    // Modals and Dialogs
     if (showInfoModal) {
         InfoModal(
             toolName = "Board Foot Calculator",
@@ -144,6 +153,53 @@ fun BoardFootCalculatorScreen(
         )
     }
     
-    // TODO: Add dialogs for save order, history, export
+    if (showSaveOrderDialog) {
+        SaveOrderDialog(
+            onSave = { orderName ->
+                viewModel.saveOrder(orderName)
+                showSaveOrderDialog = false
+            },
+            onDismiss = { showSaveOrderDialog = false }
+        )
+    }
+    
+    if (showExportDialog) {
+        ExportDialog(
+            exportData = viewModel.exportData(),
+            onDismiss = { showExportDialog = false },
+            onExport = {
+                // Auto-save when exporting
+                if (boards.isNotEmpty()) {
+                    viewModel.saveOrder(null)
+                }
+            }
+        )
+    }
+    
+    if (showHistory) {
+        HistoryScreen(
+            onDismiss = { showHistory = false },
+            onLoadOrder = { orderId ->
+                coroutineScope.launch {
+                    historyViewModel.loadOrderForEditing(orderId)?.let { loadedBoards ->
+                        viewModel.loadBoards(loadedBoards)
+                        showHistory = false
+                    }
+                }
+            },
+            viewModel = historyViewModel
+        )
+    }
+    
+    boardToEdit?.let { board ->
+        EditBoardDialog(
+            board = board,
+            onSave = { updatedBoard ->
+                viewModel.updateBoard(updatedBoard)
+                boardToEdit = null
+            },
+            onDismiss = { boardToEdit = null }
+        )
+    }
 }
 

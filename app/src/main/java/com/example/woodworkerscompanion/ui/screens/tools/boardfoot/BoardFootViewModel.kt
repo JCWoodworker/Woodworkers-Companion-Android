@@ -194,9 +194,22 @@ class BoardFootViewModel(database: AppDatabase) : ViewModel() {
     
     fun saveOrder(orderName: String?) {
         viewModelScope.launch {
-            repository.saveOrder(orderName, _boards.value)
+            val finalName = orderName ?: generateOrderName()
+            repository.saveOrder(finalName, _boards.value)
             clearAll()
         }
+    }
+    
+    fun loadBoards(boards: List<BoardEntry>) {
+        _boards.value = boards
+        saveWorkInProgress()
+    }
+    
+    private fun generateOrderName(): String {
+        // Generate a simple auto-name like "Order 1", "Order 2", etc.
+        val timestamp = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        return "Order - ${dateFormat.format(Date(timestamp))}"
     }
     
     private fun saveWorkInProgress() {
