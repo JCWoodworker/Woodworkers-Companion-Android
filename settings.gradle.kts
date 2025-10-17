@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Woodworker" s Companion"
+rootProject.name = "Woodworker's Companion"
 include(":app")
